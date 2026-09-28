@@ -1,0 +1,1276 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Cotizador de Perfumes</title>
+<meta name="description" content="Cotizador de perfumes ASTRA — genera cotizaciones con precios del catálogo mayorista de Crist Fragances.">
+<link rel="icon" href="data:,">
+</head>
+<body>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Manrope:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap">
+<style>
+  :root{
+    --bg:#0c0906;
+    --bg-2:#14100b;
+    --bg-3:#1e1811;
+    --surface:#181209;
+    --surface-2:#1f1810;
+    --cream:#f3ecdd;
+    --cream-2:#ddd0b8;
+    --cream-3:#8d7f68;
+    --accent:#f0b400;
+    --accent-2:#b35900;
+    --line:rgba(243,236,221,.12);
+    --line-strong:rgba(243,236,221,.22);
+    --ok:#7cc07a;
+    --ok-bg:rgba(124,192,122,.14);
+    --review:#e3ab3e;
+    --review-bg:rgba(227,171,62,.14);
+    --bad:#e2604f;
+    --bad-bg:rgba(226,96,79,.14);
+    --consult:#b088e8;
+    --consult-bg:rgba(176,136,232,.16);
+    --shadow: 0 12px 32px -14px rgba(0,0,0,.55);
+    --serif:'Space Grotesk',ui-sans-serif,system-ui,sans-serif;
+    --sans:'Manrope',ui-sans-serif,system-ui,sans-serif;
+    --mono:'JetBrains Mono',ui-monospace,'SF Mono',monospace;
+  }
+  @media (prefers-color-scheme: light){
+    :root:not([data-theme="dark"]){
+      --bg:#faf6ee;
+      --bg-2:#f1ead9;
+      --bg-3:#e6dcc3;
+      --surface:#fffdf8;
+      --surface-2:#fbf5e8;
+      --cream:#241d10;
+      --cream-2:#4d4128;
+      --cream-3:#79694a;
+      --accent:#a86c00;
+      --accent-2:#7a4d00;
+      --line:rgba(36,29,16,.12);
+      --line-strong:rgba(36,29,16,.22);
+      --ok:#3f8f45;
+      --ok-bg:rgba(63,143,69,.12);
+      --review:#a5730a;
+      --review-bg:rgba(165,115,10,.12);
+      --bad:#c74332;
+      --bad-bg:rgba(199,67,50,.1);
+      --consult:#7a4fb0;
+      --consult-bg:rgba(122,79,176,.12);
+      --shadow: 0 12px 28px -16px rgba(36,29,16,.28);
+    }
+  }
+  :root[data-theme="light"]{
+    --bg:#faf6ee;
+    --bg-2:#f1ead9;
+    --bg-3:#e6dcc3;
+    --surface:#fffdf8;
+    --surface-2:#fbf5e8;
+    --cream:#241d10;
+    --cream-2:#4d4128;
+    --cream-3:#79694a;
+    --accent:#a86c00;
+    --accent-2:#7a4d00;
+    --line:rgba(36,29,16,.12);
+    --line-strong:rgba(36,29,16,.22);
+    --ok:#3f8f45;
+    --ok-bg:rgba(63,143,69,.12);
+    --review:#a5730a;
+    --review-bg:rgba(165,115,10,.12);
+    --bad:#c74332;
+    --bad-bg:rgba(199,67,50,.1);
+    --shadow: 0 12px 28px -16px rgba(36,29,16,.28);
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--cream);
+    font-family:var(--sans);
+    font-size:14.5px;
+    line-height:1.5;
+  }
+  ::selection{background:var(--accent);color:#181209;}
+  .wrap{max-width:1180px;margin:0;padding:28px 22px 60px;}
+
+  header.top{
+    display:flex;flex-direction:column;align-items:center;text-align:center;gap:18px;
+    padding:12px 0 30px;margin-bottom:28px;
+    border-bottom:1px solid var(--line);
+  }
+  .brand{display:flex;flex-direction:column;align-items:center;gap:14px;}
+  .mark{width:76px;height:auto;flex:none;}
+  .brand h1{
+    font-family:var(--serif);font-weight:700;font-size:34px;margin:0;
+    letter-spacing:-.01em;
+  }
+  .brand p{margin:0;color:var(--cream-3);font-size:14.5px;}
+  .catalog-tag{
+    display:flex;align-items:center;gap:8px;
+    font-size:12.5px;color:var(--cream-3);
+    background:var(--surface);border:1px solid var(--line);
+    padding:8px 12px;border-radius:999px;
+  }
+  .catalog-tag b{color:var(--cream-2);font-weight:600;}
+  .dot{width:6px;height:6px;border-radius:50%;background:var(--ok);flex:none;}
+
+  .layout{
+    display:flex;
+    flex-direction:column;
+    gap:20px;
+  }
+  section{display:flex;flex-direction:column;gap:20px;}
+
+  .card{
+    background:var(--surface);
+    border:1px solid var(--line);
+    border-radius:16px;
+    padding:20px;
+    box-shadow:var(--shadow);
+  }
+  .card h2{
+    font-family:var(--serif);font-size:14.5px;font-weight:600;
+    margin:0 0 4px;letter-spacing:.01em;
+  }
+  .card .hint{color:var(--cream-3);font-size:12px;margin:0 0 14px;line-height:1.5;}
+
+  .heroCard{text-align:center;padding:36px 28px;}
+  .heroCard h2{font-size:24px;margin-bottom:8px;}
+  .heroCard .hint{font-size:14px;margin:0 auto 26px;max-width:440px;}
+  .heroForm{max-width:480px;margin:0 auto;text-align:left;}
+
+  .stepsList{margin:0;padding-left:18px;display:flex;flex-direction:column;gap:7px;font-size:12.5px;color:var(--cream-2);line-height:1.5;}
+  .stepsList b{color:var(--cream);}
+  .legendList{
+    margin:14px 0 0;padding:14px 0 0 18px;border-top:1px solid var(--line);
+    list-style:none;display:flex;flex-direction:column;gap:10px;
+  }
+  .legendList li{
+    font-size:12px;line-height:1.6;color:var(--cream-2);
+    display:grid;grid-template-columns:112px 1fr;column-gap:14px;align-items:start;
+  }
+  .legendList .pill{margin-top:1px;justify-self:start;}
+
+  .notesList{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:10px;}
+  .notesList li{
+    font-size:12px;line-height:1.5;color:var(--cream-2);
+    padding-left:14px;border-left:2px solid var(--accent);
+  }
+  .notesList li b{color:var(--cream);}
+  .notesList li a{color:var(--accent);font-weight:600;}
+
+  label{display:block;font-size:12px;font-weight:600;color:var(--cream-2);margin:0 0 6px;text-transform:uppercase;letter-spacing:.05em;}
+  input[type="text"], textarea, input[type="number"]{
+    width:100%;
+    background:var(--bg-2);
+    border:1px solid var(--line-strong);
+    color:var(--cream);
+    border-radius:9px;
+    padding:9px 11px;
+    font-family:var(--sans);
+    font-size:13.5px;
+    resize:vertical;
+  }
+  input[type="text"]:focus, textarea:focus, input[type="number"]:focus{
+    outline:2px solid var(--accent);outline-offset:1px;
+  }
+  .field{margin-bottom:14px;}
+  textarea#orderInput{min-height:190px;font-family:var(--mono);font-size:12.5px;line-height:1.6;}
+
+  .btn{
+    display:inline-flex;align-items:center;justify-content:center;gap:8px;
+    background:linear-gradient(135deg,var(--accent),var(--accent-2));
+    color:#181209;border:none;border-radius:999px;
+    font-family:var(--sans);font-weight:700;font-size:13.5px;
+    padding:11px 18px;cursor:pointer;width:100%;
+    box-shadow:0 8px 18px -8px rgba(240,180,0,.45);
+  }
+  .btn:active{transform:translateY(1px);}
+  .btn.secondary{
+    background:transparent;color:var(--cream-2);
+    border:1px solid var(--line-strong);
+    box-shadow:none;width:auto;padding:8px 14px;font-size:12.5px;
+  }
+  .btn.ghost{
+    background:transparent;color:var(--accent);border:1px dashed var(--line-strong);
+    box-shadow:none;width:auto;font-size:12px;padding:6px 10px;
+  }
+  .btnRow{display:flex;gap:8px;}
+  .btnRow #generateBtn{flex:1;}
+  .btnRow .btn.ghost{flex:none;white-space:nowrap;padding:11px 16px;}
+
+  .example-block{margin-top:14px;}
+  .example-label{
+    display:block;font-size:11px;font-weight:600;color:var(--cream-3);
+    text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px;
+  }
+  .example{
+    font-family:var(--mono);font-size:11px;color:var(--cream-3);
+    background:var(--bg-2);border:1px solid var(--line);border-radius:8px;
+    padding:8px 10px;white-space:pre-line;
+  }
+  .example-tip{
+    margin:8px 0 0;padding-left:10px;border-left:2px solid var(--accent);
+    font-size:11.5px;color:var(--cream-2);line-height:1.5;
+  }
+
+  .quoteHead{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:14px;flex-wrap:wrap;}
+  .quoteHead h2{margin:0;}
+  .quoteHead .actions{display:flex;gap:8px;}
+
+  .freightToggle, .collapseToggle{
+    width:100%;background:var(--bg-2);border:1px solid var(--line-strong);
+    padding:12px 14px;border-radius:12px;margin-bottom:0;
+    font-family:inherit;cursor:pointer;color:inherit;text-align:left;
+    transition:border-color .15s ease, background .15s ease;
+  }
+  .freightToggle:hover, .collapseToggle:hover{border-color:var(--accent);background:var(--surface-2);}
+  .freightToggle h2, .collapseToggle h2{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap;}
+  .optionalTag{
+    font-family:var(--sans);font-weight:500;font-size:11px;color:var(--cream-3);
+    text-transform:none;letter-spacing:0;
+  }
+  .chevron{
+    display:inline-flex;align-items:center;justify-content:center;
+    width:24px;height:24px;border-radius:50%;flex:none;
+    background:var(--accent);color:#181209;
+    font-size:15px;font-weight:700;line-height:1;
+  }
+  #freightBody, #helpBody{margin-top:16px;}
+  .notesInHelp{margin-top:14px;padding-top:14px;border-top:1px solid var(--line);}
+
+
+  table.quote{width:100%;border-collapse:collapse;}
+  table.quote thead th{
+    text-align:left;font-size:11px;text-transform:uppercase;letter-spacing:.06em;
+    color:var(--cream-3);font-weight:600;padding:0 8px 8px;border-bottom:1px solid var(--line-strong);
+  }
+  table.quote thead th.num, table.quote td.num{text-align:right;}
+  table.quote tbody td{padding:9px 8px;border-bottom:1px solid var(--line);vertical-align:middle;}
+  table.quote tbody tr:hover{background:var(--surface-2);}
+  .num{font-family:var(--mono);font-variant-numeric:tabular-nums;}
+  .prod-cell{position:relative;}
+  .prod-name-row{display:flex;align-items:flex-start;gap:10px;}
+  .prod-thumb{
+    width:34px;height:34px;border-radius:8px;object-fit:cover;flex:none;
+    background:var(--bg-2);border:1px solid var(--line);
+  }
+  .prod-name{
+    cursor:pointer;display:flex;flex-direction:column;gap:2px;
+    border-radius:6px;padding:3px 6px;margin:-3px -6px;flex:1;min-width:0;
+  }
+  .prod-name:hover{background:var(--bg-2);}
+  .prod-name .raw{font-size:10.5px;color:var(--cream-3);}
+  .prod-name .title{font-weight:600;font-size:13px;}
+  .changeLink{font-size:10.5px;text-decoration:underline;text-underline-offset:2px;}
+  .changeLink.subtle{color:var(--cream-3);}
+  .changeLink.subtle:hover{color:var(--accent);}
+  .changeLink.warn{color:var(--review);font-weight:700;}
+  .pill{
+    display:inline-flex;align-items:center;gap:5px;
+    font-size:10.5px;font-weight:700;text-transform:uppercase;letter-spacing:.04em;
+    padding:3px 8px;border-radius:999px;white-space:nowrap;
+  }
+  .pill.ok{color:var(--ok);background:var(--ok-bg);}
+  .pill.review{color:var(--review);background:var(--review-bg);}
+  .pill.bad{color:var(--bad);background:var(--bad-bg);}
+  .pill.consult{color:var(--consult);background:var(--consult-bg);}
+  .pill .dot{background:currentColor;}
+  input.qty, input.cost{
+    width:62px;text-align:right;padding:6px 7px;font-size:13px;font-family:var(--mono);
+  }
+  input.cost{width:76px;}
+  .rm{
+    background:none;border:none;color:var(--cream-3);cursor:pointer;font-size:15px;line-height:1;
+    padding:4px;border-radius:6px;
+  }
+  .rm:hover{color:var(--bad);background:var(--bad-bg);}
+
+  .empty{padding:38px 10px;text-align:center;color:var(--cream-3);font-size:13px;}
+
+  .summary{
+    margin-top:18px;padding-top:16px;border-top:1px solid var(--line-strong);
+    display:flex;justify-content:flex-end;
+  }
+  .summary-box{width:280px;display:flex;flex-direction:column;gap:9px;}
+  .summary-row{display:flex;justify-content:space-between;align-items:center;font-size:13px;color:var(--cream-2);}
+  .summary-row .num{font-size:13.5px;color:var(--cream);}
+  .summary-row.ship input{width:90px;text-align:right;}
+  .summary-row.total{
+    border-top:1px solid var(--line-strong);padding-top:10px;margin-top:2px;
+    font-family:var(--serif);font-weight:700;font-size:16px;color:var(--cream);
+  }
+  .summary-row.total .num{font-size:19px;color:var(--accent);}
+
+  .freightGrid{
+    display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:4px;
+  }
+  .freightGrid-3{grid-template-columns:repeat(3,1fr);}
+  @media (max-width:640px){ .freightGrid{grid-template-columns:1fr 1fr;} }
+  .freightGrid input{text-align:right;}
+  .weightEstimate{margin:6px 0 0;font-size:10.5px;color:var(--cream-3);min-height:14px;}
+  .weightEstimate button{
+    background:none;border:none;color:var(--accent);font-size:10.5px;font-weight:600;
+    text-decoration:underline;cursor:pointer;padding:0;margin-left:4px;font-family:inherit;
+  }
+  .checkRow{
+    display:flex;align-items:center;gap:8px;margin-top:14px;
+    font-size:12.5px;color:var(--cream-2);cursor:pointer;text-transform:none;font-weight:500;letter-spacing:0;
+  }
+  .checkRow input{width:auto;accent-color:var(--accent);cursor:pointer;}
+  .pickupWarn{
+    margin:12px 0 0;padding:8px 12px;border-radius:8px;
+    background:var(--review-bg);color:var(--review);font-size:12px;font-weight:600;
+  }
+
+  .grandCard{
+    background:linear-gradient(160deg,var(--surface),var(--surface-2));
+    border-color:var(--line-strong);
+  }
+  .grandRow{
+    display:flex;justify-content:space-between;align-items:baseline;
+    font-size:13.5px;color:var(--cream-2);padding:5px 0;
+  }
+  .grandRow .num{font-family:var(--mono);font-variant-numeric:tabular-nums;color:var(--cream);}
+  .grandRow.final{
+    border-top:1px solid var(--line-strong);margin-top:6px;padding-top:14px;
+    font-family:var(--serif);font-weight:700;font-size:19px;color:var(--cream);
+  }
+  .grandRow.final .num{font-size:24px;color:var(--accent);}
+  .sendRow{display:flex;gap:8px;margin-top:18px;}
+  .sendRow .btn{flex:1;width:auto;}
+  .sendRow a.btn{text-decoration:none;box-sizing:border-box;}
+  .sendHint{margin:10px 0 0;font-size:11px;color:var(--cream-3);line-height:1.5;}
+
+  .searchPop{
+    position:absolute;top:calc(100% + 6px);left:0;z-index:20;
+    width:480px;max-width:92vw;
+    background:var(--surface);border:1px solid var(--line-strong);border-radius:14px;
+    box-shadow:var(--shadow);padding:12px;
+  }
+  .searchPop input{margin-bottom:10px;}
+  .searchResults{max-height:380px;overflow-y:auto;display:flex;flex-direction:column;gap:4px;}
+  .searchResults .opt{
+    display:flex;align-items:center;justify-content:space-between;gap:12px;
+    padding:9px 10px;border-radius:10px;cursor:pointer;font-size:13px;
+  }
+  .searchResults .opt:hover{background:var(--bg-2);}
+  .searchResults .opt .optLeft{display:flex;align-items:center;gap:12px;min-width:0;}
+  .searchResults .opt .optThumb{
+    width:56px;height:56px;border-radius:10px;object-fit:cover;flex:none;
+    background:var(--bg-2);border:1px solid var(--line);
+  }
+  .searchResults .opt .optTitle{
+    overflow:visible;white-space:normal;line-height:1.35;color:var(--cream);
+  }
+  .searchResults .opt .p{font-family:var(--mono);color:var(--accent);flex:none;font-weight:600;}
+  .searchResults .none{padding:10px 6px;color:var(--cream-3);font-size:12px;}
+
+  footer.note{
+    font-size:11.5px;color:var(--cream-3);
+    display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;
+  }
+  a{color:var(--accent);}
+
+  @media (prefers-reduced-motion: no-preference){
+    .card{transition:box-shadow .2s ease;}
+  }
+</style>
+
+<div class="wrap">
+
+  <header class="top">
+    <div class="brand">
+      <img src="assets/astra-star-mark.webp" alt="ASTRA" class="mark">
+      <div>
+        <h1>Cotizador de Perfumes</h1>
+        <p>ASTRA &middot; precios desde el catálogo mayorista de Crist Fragances</p>
+      </div>
+    </div>
+    <div class="catalog-tag"><span class="dot"></span> <b id="catalogCount">&mdash;</b>&nbsp;productos en catálogo</div>
+  </header>
+
+  <div class="layout">
+    <div class="card">
+      <h2>¿Cómo funciona? <span class="optionalTag">guía rápida</span></h2>
+      <div id="helpBody">
+        <ol class="stepsList">
+          <li>Pega o escribe tu pedido y presiona <b>Generar cotización</b>.</li>
+          <li>Revisa el estado de cada línea. Si algún producto necesita corrección, haz clic sobre su nombre para elegir el correcto.</li>
+          <li>Cuando conozcas el peso real del envío, abre <b>Flete aproximado</b> y complétalo.</li>
+        </ol>
+        <ul class="legendList">
+          <li><span class="pill ok"><span class="dot"></span>Coincide</span> El producto se identificó con alta confianza en el catálogo; el precio queda listo para usar.</li>
+          <li><span class="pill review"><span class="dot"></span>Revisar</span> Existe una coincidencia probable. Confirma que sea el producto correcto antes de enviar la cotización.</li>
+          <li><span class="pill consult"><span class="dot"></span>Consultar</span> El catálogo de Crist lo muestra como agotado, aunque suele haber disponibilidad real. Confírmalo antes de descartarlo.</li>
+          <li><span class="pill bad"><span class="dot"></span>No hallado</span> No se encontró un producto similar en el catálogo. Búscalo manualmente o ingresa el costo a mano.</li>
+        </ul>
+        <ul class="notesList notesInHelp">
+          <li><b>Pick up:</b> incluye el embalado y/o reempacado de tus cajas, y su entrega en Shalom para consolidarlas dentro de tu envío. El costo depende de la cantidad de cajas: 1–5 cajas, $5; 6–15 cajas, $10; 16 o más, se coordina de forma independiente.</li>
+          <li><b>Tarifa de flete ($/kg):</b> puede variar o no estar asignada todavía. Si es tu caso, <a id="waLinkTarifa" href="#" target="_blank" rel="noopener">consulta con soporte por WhatsApp</a> antes de confirmar tu cotización.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="card heroCard">
+      <h2>Tu pedido</h2>
+      <p class="hint">Pega o escribe tu pedido (producto y cantidad). Una línea por producto.</p>
+      <div class="heroForm">
+        <div class="field">
+          <label for="clientNameInput">Tu nombre</label>
+          <input type="text" id="clientNameInput" placeholder="Tu nombre">
+        </div>
+        <div class="field">
+          <label for="orderInput">Lista del pedido</label>
+          <textarea id="orderInput" spellcheck="false"></textarea>
+        </div>
+        <div class="btnRow">
+          <button class="btn" id="generateBtn">Generar cotización</button>
+          <button class="btn ghost" id="resetBtn" title="Borra tu nombre, tu pedido y la cotización generada">Limpiar</button>
+        </div>
+        <div class="example-block">
+          <span class="example-label">Ejemplo</span>
+          <div class="example">Nitro Red 2
+Club de Nuit Iconic 1
+Club de Nuit Urban Elixir 1
+Yara Tous 3
+Khamrah Dukhan 1</div>
+          <p class="example-tip">Mientras más detallado escribas el nombre (marca, tamaño, edición), más fácil lo reconoce el buscador automático de precios.</p>
+        </div>
+      </div>
+    </div>
+
+    <section>
+      <div class="card">
+        <div class="quoteHead">
+          <h2>Cotización</h2>
+          <div class="actions">
+            <button class="btn secondary" id="addRowBtn">+ Agregar línea</button>
+            <button class="btn secondary" id="copyBtn">Copiar cotización</button>
+          </div>
+        </div>
+
+        <div id="tableWrap">
+          <table class="quote" id="quoteTable">
+            <thead>
+              <tr>
+                <th style="width:44%">Perfume</th>
+                <th class="num" style="width:70px">Cant.</th>
+                <th class="num" style="width:90px">Costo</th>
+                <th class="num" style="width:90px">Total</th>
+                <th style="width:110px">Estado</th>
+                <th style="width:30px"></th>
+              </tr>
+            </thead>
+            <tbody id="quoteBody">
+              <tr><td colspan="6" class="empty">Pega o escribe tu pedido arriba y presiona "Generar cotización".</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="summary">
+          <div class="summary-box">
+            <div class="summary-row"><span>Cantidad de perfumes</span><span class="num" id="qtyCountOut">0</span></div>
+            <div class="summary-row"><span>Total perfumes</span><span class="num" id="subtotalOut">$0.00</span></div>
+            <div class="summary-row ship"><span>Shipping</span><input type="number" id="shippingInput" class="num" value="20" step="0.01"></div>
+            <div class="summary-row total"><span>Total Perfumería</span><span class="num" id="grandTotalOut">$0.00</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <button class="quoteHead freightToggle" id="freightToggle" type="button" aria-expanded="false">
+          <h2>Flete aproximado <span class="optionalTag">cálculo estimado — el peso final puede variar</span></h2>
+          <span class="chevron" id="freightChevron">+</span>
+        </button>
+        <div id="freightBody" hidden>
+          <p class="hint">Este valor es una referencia calculada con un promedio de 3 kg por caja. El peso real depende del contenido de cada envío y se confirma con precisión —incluyendo decimales— al llegar a Perú. El Total Perfumería de arriba ya es un monto fijo y no se ve afectado por esta estimación.</p>
+          <div class="freightGrid freightGrid-3">
+            <div class="field">
+              <label for="boxesInput">Cajas</label>
+              <input type="number" id="boxesInput" min="0" step="1" value="0">
+            </div>
+            <div class="field">
+              <label for="weightInput">Peso total (kg)</label>
+              <input type="number" id="weightInput" min="0" step="0.1" value="0">
+              <p class="weightEstimate" id="weightEstimateHint"></p>
+            </div>
+            <div class="field">
+              <label for="rateInput">Tarifa ($/kg)</label>
+              <input type="number" id="rateInput" min="0" step="0.5" value="11">
+            </div>
+          </div>
+          <label class="checkRow">
+            <input type="checkbox" id="pickupEnabled" checked>
+            Incluir pick up (desmarca esta casilla si recogerás la paquetería en almacén)
+          </label>
+          <p class="pickupWarn" id="pickupWarn" hidden>16 cajas o más: el pick up se coordina directamente, no está incluido en el total de abajo.</p>
+          <div class="summary">
+            <div class="summary-box">
+              <div class="summary-row"><span>Flete (peso × tarifa)</span><span class="num" id="freightOut">$0.00</span></div>
+              <div class="summary-row"><span>Pick up (según cajas)</span><span class="num" id="pickupOut">—</span></div>
+              <div class="summary-row total"><span>Total flete aproximado</span><span class="num" id="freightTotalOut">$0.00</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card grandCard">
+        <div class="grandRow"><span>Total Perfumería</span><span class="num" id="grandPerfOut">$0.00</span></div>
+        <div class="grandRow"><span>+ Flete aproximado</span><span class="num" id="grandFreightOut">$0.00</span></div>
+        <div class="grandRow final"><span>Total aproximado</span><span class="num" id="grandFinalOut">$0.00</span></div>
+        <div class="sendRow">
+          <button class="btn ghost" id="downloadBtn">1. Descargar imagen</button>
+          <a class="btn ghost" id="waSendLink" href="#" target="_blank" rel="noopener">2. Abrir WhatsApp</a>
+        </div>
+        <p class="sendHint">Descarga la imagen y adjúntala manualmente en el chat de WhatsApp que se abre — la app no permite enviarla de forma automática.</p>
+      </div>
+
+      <footer class="note">
+        <span>Catálogo actualizado automáticamente todos los días desde <a href="https://wholesale.cristfragances.com" target="_blank" rel="noopener">wholesale.cristfragances.com</a>.</span>
+        <span id="aliasCount"></span>
+      </footer>
+    </section>
+  </div>
+</div>
+
+<canvas id="exportCanvas" style="display:none;"></canvas>
+
+<script>
+(function(){
+  "use strict";
+
+  // Neutral filler that appears in almost every title regardless of variant —
+  // safe to ignore since it never helps tell one product from another.
+  var STOPWORDS = new Set(['for','de','men','women','man','woman','eau','parfum','edp','edt','ml','oz','and','by','the','fl','new','le','la','pour','homme','femme','with']);
+  // Words that flag a title as a bundle/format variant rather than the plain
+  // product (gift set, tester, body spray, 12-pack…). Kept as real tokens
+  // and penalized extra in scoreCandidate so a bare product outranks a
+  // bundle that happens to also contain every word of the query.
+  var BUNDLE_WORDS = new Set(['gift','set','spray','deodorant','tester','box','damaged','pack','paq','units','pcs','mist','vintage','limited','edition','sold','out']);
+  var DEFAULT_ALIASES = {
+    'cdn': 'club de nuit',
+    'khamrad': 'khamrah',
+    'khamra': 'khamrah'
+  };
+
+  var catalog = [];
+  var catalogById = {};
+  var lineAliases = {};
+
+  // v2: guarda el id estable del producto (variant id de Shopify), no su
+  // posición en el array — el catálogo se reordena en cada actualización
+  // diaria, así que un índice guardado ayer puede apuntar a otro producto
+  // hoy. Las alias v1 (basadas en índice) quedan abandonadas a propósito.
+  function loadAliases(){
+    try{
+      var raw = localStorage.getItem('astra_cotizador_aliases_v2');
+      lineAliases = raw ? JSON.parse(raw) : {};
+    }catch(e){ lineAliases = {}; }
+    updateAliasCount();
+  }
+  function saveAliases(){
+    try{ localStorage.setItem('astra_cotizador_aliases_v2', JSON.stringify(lineAliases)); }catch(e){}
+    updateAliasCount();
+  }
+  function updateAliasCount(){
+    var n = Object.keys(lineAliases).length;
+    document.getElementById('aliasCount').textContent = n ? (n + ' coincidencias aprendidas en este navegador') : '';
+  }
+
+  function normalize(s){
+    return (s||'').toString().toLowerCase()
+      .normalize('NFD').replace(/[\u0300-\u036f]/g,'')
+      .replace(/[^a-z0-9\s]/g,' ')
+      .replace(/\s+/g,' ').trim();
+  }
+
+  function expandAliases(norm){
+    var out = norm;
+    Object.keys(DEFAULT_ALIASES).forEach(function(k){
+      var re = new RegExp('\\b'+k+'\\b','g');
+      out = out.replace(re, DEFAULT_ALIASES[k]);
+    });
+    return out;
+  }
+
+  function tokens(norm){
+    return norm.split(' ').filter(function(t){
+      return t.length>=2 && !STOPWORDS.has(t) && !/^\d+$/.test(t);
+    });
+  }
+
+  function scoreCandidate(qTokens, qNorm, item){
+    var exact = qNorm.length>0 && item._norm.indexOf(qNorm) !== -1;
+    var coverage;
+    if(!qTokens.length){
+      coverage = exact ? 1 : 0;
+    } else {
+      var hit = 0;
+      qTokens.forEach(function(t){
+        if(item._tokens.indexOf(t) !== -1 || item._norm.indexOf(t) !== -1) hit++;
+      });
+      coverage = hit / qTokens.length;
+      if(exact) coverage = 1;
+    }
+    var extra = Math.max(0, item._tokens.length - qTokens.length);
+    var qSet = {};
+    qTokens.forEach(function(t){ qSet[t] = true; });
+    var bundleHits = 0;
+    item._tokens.forEach(function(t){
+      if(BUNDLE_WORDS.has(t) && !qSet[t]) bundleHits++;
+    });
+    extra += bundleHits * 2;
+    return {coverage: coverage, extra: extra};
+  }
+
+  // Among candidates covering the same fraction of the query, prefer the
+  // title closest in length to the query (fewer "gift set" / "12-pack"
+  // style qualifiers dragged in just because they also contain the words).
+  function isBetter(s, bestC, bestE){
+    if(s.coverage > bestC + 1e-9) return true;
+    if(Math.abs(s.coverage - bestC) < 1e-9 && s.extra < bestE) return true;
+    return false;
+  }
+
+  function bestMatch(rawName){
+    var qNormRaw = normalize(rawName);
+    if(lineAliases[qNormRaw] !== undefined){
+      var savedId = lineAliases[qNormRaw];
+      var idx = catalogById[savedId];
+      if(idx !== undefined) return {item: catalog[idx], coverage: 1, extra: 0, learned:true};
+    }
+    var qNorm = expandAliases(qNormRaw);
+    var qTokens = tokens(qNorm);
+    var best = null, bestC = -1, bestE = Infinity;
+    for(var i=0;i<catalog.length;i++){
+      var it = catalog[i];
+      var s = scoreCandidate(qTokens, qNorm, it);
+      if(isBetter(s, bestC, bestE)){
+        best = it; bestC = s.coverage; bestE = s.extra;
+      }
+    }
+    return {item: best, coverage: bestC, extra: bestE, learned:false};
+  }
+
+  function searchCatalog(q, limit){
+    var qNorm = expandAliases(normalize(q));
+    var qTokens = tokens(qNorm);
+    if(!qNorm){
+      return catalog.slice(0, limit);
+    }
+    var scored = catalog.map(function(it){
+      return {it:it, s: scoreCandidate(qTokens, qNorm, it)};
+    }).filter(function(x){ return x.s.coverage>0; });
+    scored.sort(function(a,b){
+      if(Math.abs(a.s.coverage-b.s.coverage) > 1e-9) return b.s.coverage - a.s.coverage;
+      return a.s.extra - b.s.extra;
+    });
+    return scored.slice(0, limit).map(function(x){ return x.it; });
+  }
+
+  function parseOrderText(text){
+    return text.split('\n').map(function(line){ return line.trim(); })
+      .filter(function(l){ return l.length>0; })
+      .map(function(line){
+        var name, qty = 1;
+        if(line.indexOf('\t') !== -1){
+          var parts = line.split('\t').map(function(p){return p.trim();}).filter(Boolean);
+          if(parts.length>=2 && /^\d+([.,]\d+)?$/.test(parts[parts.length-1])){
+            qty = parseFloat(parts[parts.length-1].replace(',','.'));
+            name = parts.slice(0,-1).join(' ');
+          } else {
+            name = parts.join(' ');
+          }
+          return {raw:name, qty:qty};
+        }
+        var m = line.match(/^(.*?)[\s xX#]*?(\d+)\s*$/);
+        if(m && m[1].trim().length>0){
+          name = m[1].replace(/[xX#]\s*$/,'').trim();
+          qty = parseInt(m[2],10);
+        } else {
+          name = line;
+        }
+        return {raw:name, qty:qty||1};
+      });
+  }
+
+  var rows = [];
+
+  function buildRow(raw, qty){
+    var m = bestMatch(raw);
+    var status = 'bad';
+    if(m.item){
+      if(m.learned) status = 'ok';
+      else if(m.coverage>=0.99 && m.extra<=3) status = 'ok';
+      else if(m.coverage>=0.5) status = 'review';
+      else status = 'bad';
+      // Crist a veces marca "agotado" productos que en realidad sí tiene —
+      // no lo tratamos como error de matching, solo como "verificar stock".
+      if(status === 'ok' && m.item.a === false) status = 'consult';
+    }
+    return {
+      raw: raw,
+      qty: qty,
+      productIndex: m.item ? catalog.indexOf(m.item) : -1,
+      title: m.item ? m.item.t : raw,
+      cost: m.item ? m.item.p : 0,
+      img: m.item ? m.item.im : null,
+      status: status
+    };
+  }
+
+  function renderRows(){
+    var tbody = document.getElementById('quoteBody');
+    tbody.innerHTML = '';
+    if(!rows.length){
+      tbody.innerHTML = '<tr><td colspan="6" class="empty">Pega o escribe tu pedido arriba y presiona "Generar cotización".</td></tr>';
+      updateSummary();
+      return;
+    }
+    rows.forEach(function(row, i){
+      var tr = document.createElement('tr');
+
+      var tdProd = document.createElement('td');
+      tdProd.className = 'prod-cell';
+      var prodRow = document.createElement('div');
+      prodRow.className = 'prod-name-row';
+      if(row.img){
+        var thumb = document.createElement('img');
+        thumb.className = 'prod-thumb';
+        thumb.src = row.img;
+        thumb.alt = '';
+        thumb.loading = 'lazy';
+        prodRow.appendChild(thumb);
+      }
+      var pn = document.createElement('div');
+      pn.className = 'prod-name';
+      var changeHint = (row.status === 'ok' || row.status === 'consult')
+        ? '<span class="changeLink subtle">cambiar producto</span>'
+        : '<span class="changeLink warn">⚠ ver otras opciones</span>';
+      pn.innerHTML = '<span class="title">'+escapeHtml(row.title)+'</span><span class="raw">pedido: '+escapeHtml(row.raw)+'</span>'+changeHint;
+      pn.title = 'Clic para elegir otro producto del catálogo';
+      pn.addEventListener('click', function(){ openSearch(tdProd, i); });
+      prodRow.appendChild(pn);
+      tdProd.appendChild(prodRow);
+      tr.appendChild(tdProd);
+
+      var tdQty = document.createElement('td'); tdQty.className='num';
+      var qtyInput = document.createElement('input');
+      qtyInput.type='number'; qtyInput.className='qty'; qtyInput.min='1'; qtyInput.step='1'; qtyInput.value=row.qty;
+      qtyInput.addEventListener('input', function(){ row.qty = parseFloat(qtyInput.value)||0; updateSummary(); updateRowTotal(i); });
+      tdQty.appendChild(qtyInput); tr.appendChild(tdQty);
+
+      var tdCost = document.createElement('td'); tdCost.className='num';
+      var costInput = document.createElement('input');
+      costInput.type='number'; costInput.className='cost'; costInput.step='0.01'; costInput.min='0'; costInput.value=row.cost.toFixed(2);
+      costInput.addEventListener('input', function(){ row.cost = parseFloat(costInput.value)||0; updateSummary(); updateRowTotal(i); });
+      tdCost.appendChild(costInput); tr.appendChild(tdCost);
+
+      var tdTotal = document.createElement('td'); tdTotal.className='num row-total';
+      tdTotal.textContent = '$'+(row.qty*row.cost).toFixed(2);
+      tr.appendChild(tdTotal);
+
+      var tdStatus = document.createElement('td');
+      tdStatus.appendChild(statusPill(row.status));
+      tr.appendChild(tdStatus);
+
+      var tdRm = document.createElement('td');
+      var rmBtn = document.createElement('button');
+      rmBtn.className='rm'; rmBtn.textContent='×'; rmBtn.title='Quitar línea';
+      rmBtn.addEventListener('click', function(){ rows.splice(i,1); renderRows(); });
+      tdRm.appendChild(rmBtn); tr.appendChild(tdRm);
+
+      tbody.appendChild(tr);
+    });
+    updateSummary();
+  }
+
+  function updateRowTotal(i){
+    var tbody = document.getElementById('quoteBody');
+    var tr = tbody.children[i];
+    if(!tr) return;
+    var row = rows[i];
+    tr.querySelector('.row-total').textContent = '$'+(row.qty*row.cost).toFixed(2);
+  }
+
+  function statusPill(status){
+    var span = document.createElement('span');
+    var map = {ok:['ok','Coincide'], review:['review','Revisar'], bad:['bad','No hallado'], consult:['consult','Consultar']};
+    var c = map[status] || map.bad;
+    span.className = 'pill '+c[0];
+    span.innerHTML = '<span class="dot"></span>'+c[1];
+    return span;
+  }
+
+  function escapeHtml(s){
+    return (s||'').replace(/[&<>"']/g, function(c){
+      return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];
+    });
+  }
+
+  // Pick up según número de cajas: 1-5 = $5, 6-15 = $10, 16+ se coordina aparte.
+  function pickupTier(boxes){
+    if(!document.getElementById('pickupEnabled').checked){
+      return {fee:0, label:'No aplica (recoges en almacén)', special:false};
+    }
+    if(boxes<=0) return {fee:0, label:'—', special:false};
+    if(boxes<=5) return {fee:5, label:'$5.00', special:false};
+    if(boxes<=15) return {fee:10, label:'$10.00', special:false};
+    return {fee:0, label:'Coordinar aparte', special:true};
+  }
+
+  function updateSummary(){
+    var subtotal = rows.reduce(function(a,r){ return a + r.qty*r.cost; }, 0);
+    var totalQty = rows.reduce(function(a,r){ return a + (r.qty||0); }, 0);
+    var shipping = parseFloat(document.getElementById('shippingInput').value)||0;
+    var perfTotal = subtotal + shipping;
+    document.getElementById('qtyCountOut').textContent = totalQty + ' unid. · ' + rows.length + ' productos';
+    document.getElementById('subtotalOut').textContent = '$'+subtotal.toFixed(2);
+    document.getElementById('grandTotalOut').textContent = '$'+perfTotal.toFixed(2);
+
+    var weight = parseFloat(document.getElementById('weightInput').value)||0;
+    var rate = parseFloat(document.getElementById('rateInput').value)||0;
+    var boxes = parseFloat(document.getElementById('boxesInput').value)||0;
+    var tier = pickupTier(boxes);
+    var freight = weight*rate;
+    var freightTotal = freight + tier.fee;
+    document.getElementById('freightOut').textContent = '$'+freight.toFixed(2);
+    document.getElementById('pickupOut').textContent = tier.label;
+    document.getElementById('freightTotalOut').textContent = '$'+freightTotal.toFixed(2);
+    document.getElementById('pickupWarn').hidden = !tier.special;
+
+    document.getElementById('grandPerfOut').textContent = '$'+perfTotal.toFixed(2);
+    document.getElementById('grandFreightOut').textContent = '$'+freightTotal.toFixed(2);
+    document.getElementById('grandFinalOut').textContent = '$'+(perfTotal+freightTotal).toFixed(2);
+
+    var client = document.getElementById('clientNameInput').value || 'tu pedido';
+    document.getElementById('waSendLink').href = 'https://wa.me/51902887887?text=' +
+      encodeURIComponent('ASTRA, te envío mi cotización de perfumería (' + client + '). Adjunto la imagen descargada.');
+  }
+
+  var openPopover = null;
+  var docClickHandler = null;
+  function closeSearch(){
+    if(openPopover){ openPopover.remove(); openPopover=null; }
+    if(docClickHandler){ document.removeEventListener('click', docClickHandler); docClickHandler=null; }
+  }
+  function openSearch(anchorCell, rowIndex){
+    closeSearch();
+    var pop = document.createElement('div');
+    pop.className = 'searchPop';
+    var input = document.createElement('input');
+    input.type='text'; input.placeholder='Buscar producto en el catálogo…';
+    var results = document.createElement('div');
+    results.className = 'searchResults';
+    pop.appendChild(input); pop.appendChild(results);
+    anchorCell.appendChild(pop);
+    openPopover = pop;
+
+    function renderResults(list){
+      results.innerHTML='';
+      if(!list.length){ results.innerHTML = '<div class="none">Sin resultados</div>'; return; }
+      list.forEach(function(it){
+        var opt = document.createElement('div');
+        opt.className='opt';
+        var left = document.createElement('div');
+        left.className = 'optLeft';
+        if(it.im){
+          var th = document.createElement('img');
+          th.className = 'optThumb'; th.src = it.im; th.alt=''; th.loading='lazy';
+          left.appendChild(th);
+        }
+        var titleSpan = document.createElement('span');
+        titleSpan.className = 'optTitle';
+        titleSpan.textContent = it.t;
+        left.appendChild(titleSpan);
+        opt.appendChild(left);
+        var priceSpan = document.createElement('span');
+        priceSpan.className = 'p';
+        priceSpan.textContent = '$'+it.p.toFixed(2);
+        opt.appendChild(priceSpan);
+        opt.addEventListener('click', function(){
+          var row = rows[rowIndex];
+          var idx = catalog.indexOf(it);
+          row.productIndex = idx; row.title = it.t; row.cost = it.p; row.img = it.im;
+          row.status = (it.a === false) ? 'consult' : 'ok';
+          lineAliases[normalize(row.raw)] = it.id;
+          saveAliases();
+          renderRows();
+          closeSearch();
+        });
+        results.appendChild(opt);
+      });
+    }
+    renderResults(searchCatalog(rows[rowIndex].raw, 25));
+    input.addEventListener('input', function(){ renderResults(searchCatalog(input.value, 25)); });
+    input.focus();
+    setTimeout(function(){
+      docClickHandler = function(e){
+        if(!pop.contains(e.target) && e.target!==pop){
+          closeSearch();
+        }
+      };
+      document.addEventListener('click', docClickHandler);
+    },0);
+  }
+
+  document.getElementById('generateBtn').addEventListener('click', function(){
+    var text = document.getElementById('orderInput').value;
+    var parsed = parseOrderText(text);
+    rows = parsed.map(function(p){ return buildRow(p.raw, p.qty); });
+    renderRows();
+  });
+
+  function wireToggle(toggleId, bodyId){
+    var btn = document.getElementById(toggleId);
+    var body = document.getElementById(bodyId);
+    var chevron = btn.querySelector('.chevron');
+    btn.addEventListener('click', function(){
+      var expanded = body.hidden;
+      body.hidden = !expanded;
+      btn.setAttribute('aria-expanded', expanded ? 'true' : 'false');
+      if(chevron) chevron.textContent = expanded ? '–' : '+';
+    });
+  }
+  wireToggle('freightToggle', 'freightBody');
+
+  document.getElementById('resetBtn').addEventListener('click', function(){
+    document.getElementById('clientNameInput').value = '';
+    document.getElementById('orderInput').value = '';
+    document.getElementById('shippingInput').value = 20;
+    document.getElementById('boxesInput').value = 0;
+    document.getElementById('weightInput').value = 0;
+    document.getElementById('rateInput').value = 11;
+    document.getElementById('pickupEnabled').checked = true;
+    rows = [];
+    renderRows();
+  });
+
+  document.getElementById('addRowBtn').addEventListener('click', function(){
+    rows.push(buildRow('Producto nuevo', 1));
+    renderRows();
+  });
+
+  document.getElementById('shippingInput').addEventListener('input', updateSummary);
+  ['weightInput','rateInput','boxesInput'].forEach(function(id){
+    document.getElementById(id).addEventListener('input', updateSummary);
+  });
+  document.getElementById('pickupEnabled').addEventListener('change', updateSummary);
+  document.getElementById('clientNameInput').addEventListener('input', updateSummary);
+
+  function updateWeightEstimate(){
+    var boxes = parseFloat(document.getElementById('boxesInput').value)||0;
+    var hint = document.getElementById('weightEstimateHint');
+    if(boxes <= 0){ hint.innerHTML = ''; return; }
+    var estimate = boxes * 3;
+    hint.innerHTML = 'Estimado: ' + boxes + ' cajas × 3kg = ' + estimate + 'kg' +
+      '<button type="button" id="useEstimateBtn">usar</button>';
+    document.getElementById('useEstimateBtn').addEventListener('click', function(){
+      document.getElementById('weightInput').value = estimate;
+      document.getElementById('weightInput').dispatchEvent(new Event('input'));
+    });
+  }
+  document.getElementById('boxesInput').addEventListener('input', updateWeightEstimate);
+  updateWeightEstimate();
+
+  function buildCopyText(){
+    var client = document.getElementById('clientNameInput').value || 'Tu pedido';
+    var lines = [];
+    lines.push('Cotización — ' + client);
+    lines.push('');
+    rows.forEach(function(r){
+      var total = r.qty*r.cost;
+      lines.push(r.title + '  x' + r.qty + '  $' + r.cost.toFixed(2) + '  = $' + total.toFixed(2));
+    });
+    var subtotal = rows.reduce(function(a,r){ return a + r.qty*r.cost; }, 0);
+    var totalQty = rows.reduce(function(a,r){ return a + (r.qty||0); }, 0);
+    var shipping = parseFloat(document.getElementById('shippingInput').value)||0;
+    var perfTotal = subtotal+shipping;
+    lines.push('');
+    lines.push('Cantidad de perfumes: '+totalQty+' unid. · '+rows.length+' productos');
+    lines.push('Total perfumes: $'+subtotal.toFixed(2));
+    lines.push('Shipping: $'+shipping.toFixed(2));
+    lines.push('Total Perfumería: $'+perfTotal.toFixed(2));
+
+    var weight = parseFloat(document.getElementById('weightInput').value)||0;
+    if(weight > 0){
+      var rate = parseFloat(document.getElementById('rateInput').value)||0;
+      var boxes = parseFloat(document.getElementById('boxesInput').value)||0;
+      var tier = pickupTier(boxes);
+      var freight = weight*rate;
+      var freightTotal = freight+tier.fee;
+      lines.push('');
+      lines.push('Flete aproximado ('+weight+'kg x $'+rate.toFixed(2)+'): $'+freight.toFixed(2));
+      lines.push('Pick up ('+boxes+' cajas): '+tier.label);
+      lines.push('Total flete aproximado: $'+freightTotal.toFixed(2) + (tier.special ? ' (sin pick up, coordinar aparte)' : ''));
+      lines.push('');
+      lines.push('TOTAL APROXIMADO: $'+(perfTotal+freightTotal).toFixed(2));
+    }
+    return lines.join('\n');
+  }
+
+  document.getElementById('copyBtn').addEventListener('click', function(){
+    var text = buildCopyText();
+    var btn = document.getElementById('copyBtn');
+    function done(ok){ btn.textContent = ok?'Copiado ✓':'Copiar cotización'; setTimeout(function(){btn.textContent='Copiar cotización';},1600); }
+    if(navigator.clipboard && navigator.clipboard.writeText){
+      navigator.clipboard.writeText(text).then(function(){done(true);}).catch(function(){done(false);});
+    } else {
+      var ta=document.createElement('textarea'); ta.value=text; document.body.appendChild(ta);
+      ta.select(); try{ document.execCommand('copy'); done(true);}catch(e){done(false);} ta.remove();
+    }
+  });
+
+  function loadImg(src){
+    return new Promise(function(resolve){
+      if(!src){ resolve(null); return; }
+      var img = new Image();
+      img.onload = function(){ resolve(img); };
+      img.onerror = function(){ resolve(null); };
+      img.src = src;
+    });
+  }
+
+  function roundRectPath(ctx,x,y,w,h,r){
+    if(ctx.roundRect){ ctx.beginPath(); ctx.roundRect(x,y,w,h,r); return; }
+    ctx.beginPath();
+    ctx.moveTo(x+r,y);
+    ctx.arcTo(x+w,y,x+w,y+h,r);
+    ctx.arcTo(x+w,y+h,x,y+h,r);
+    ctx.arcTo(x,y+h,x,y,r);
+    ctx.arcTo(x,y,x+w,y,r);
+    ctx.closePath();
+  }
+
+  // Envuelve un texto largo a lo sumo en `maxLines` líneas dentro de `maxWidth`;
+  // si sobra texto después de esas líneas, corta con "…" en la última.
+  function wrapText(ctx, text, maxWidth, maxLines){
+    var words = (text||'').split(' ');
+    var lines = [];
+    var current = '';
+    var i = 0;
+    while(i < words.length && lines.length < maxLines){
+      var test = current ? current+' '+words[i] : words[i];
+      if(ctx.measureText(test).width <= maxWidth || !current){
+        current = test; i++;
+      } else {
+        lines.push(current); current = '';
+      }
+    }
+    if(current) lines.push(current);
+    if(i < words.length){
+      var last = lines[lines.length-1] || '';
+      while(last.length>0 && ctx.measureText(last+'…').width > maxWidth){
+        last = last.slice(0,-1);
+      }
+      lines[lines.length-1] = last+'…';
+    }
+    return lines.length ? lines : [''];
+  }
+
+  // Dibuja la cotización como imagen (canvas), estilo "Liquidación ASTRA",
+  // para poder guardarla y adjuntarla a mano en WhatsApp.
+  async function drawQuoteImage(){
+    // El canvas no espera solo a que las tipografías web terminen de cargar
+    // (a diferencia del texto normal de la página) — hay que esperarlas a mano.
+    try{ await document.fonts.ready; }catch(e){}
+
+    var client = document.getElementById('clientNameInput').value || 'Tu pedido';
+    var W = 1040, padX = 48;
+
+    var xThumb = padX, thumbSize = 34;
+    var xTitle = xThumb + thumbSize + 14;
+    var xCant = W - padX - 220;
+    var xCosto = W - padX - 150;
+    var xTotal = W - padX - 60;
+    var titleMaxWidth = xCant - xTitle - 24;
+
+    var meas = document.getElementById('exportCanvas');
+    meas.width = W; meas.height = 100;
+    var mctx = meas.getContext('2d');
+    mctx.font = "600 14px 'Manrope', sans-serif";
+    rows.forEach(function(r){
+      r._lines = wrapText(mctx, r.title, titleMaxWidth, 2);
+      r._rowH = r._lines.length > 1 ? 60 : 44;
+    });
+
+    var subtotal = rows.reduce(function(a,r){ return a + r.qty*r.cost; }, 0);
+    var shipping = parseFloat(document.getElementById('shippingInput').value)||0;
+    var perfTotal = subtotal+shipping;
+    var weight = parseFloat(document.getElementById('weightInput').value)||0;
+    var rate = parseFloat(document.getElementById('rateInput').value)||0;
+    var boxes = parseFloat(document.getElementById('boxesInput').value)||0;
+    var tier = pickupTier(boxes);
+    var freight = weight*rate;
+    var freightTotal = freight+tier.fee;
+    var grandTotal = perfTotal + (weight>0 ? freightTotal : 0);
+
+    var logo = await loadImg('assets/astra-star-mark.webp');
+    var thumbImgs = await Promise.all(rows.map(function(r){ return loadImg(r.img); }));
+
+    // Dibuja en un lienzo alto "de sobra" y al final recorta a la altura real —
+    // así no hay que precalcular la altura exacta de antemano.
+    var H_MAX = 2400;
+    var canvas = document.getElementById('exportCanvas');
+    canvas.width = W; canvas.height = H_MAX;
+    var ctx = canvas.getContext('2d');
+
+    ctx.fillStyle = '#0c0906';
+    ctx.fillRect(0,0,W,H_MAX);
+    roundRectPath(ctx, 4,4,W-8,H_MAX-8,18);
+    ctx.fillStyle = '#14100b'; ctx.fill();
+    ctx.strokeStyle = 'rgba(243,236,221,.14)'; ctx.lineWidth = 1; ctx.stroke();
+
+    var logoSize = 42;
+    if(logo){ ctx.drawImage(logo, padX, 34, logoSize, logoSize*(logo.height/logo.width)); }
+    ctx.fillStyle = '#f0b400';
+    ctx.font = "700 27px 'Space Grotesk', sans-serif";
+    ctx.fillText('ASTRA', padX + logoSize + 14, 62);
+
+    ctx.textAlign = 'right';
+    ctx.fillStyle = '#f3ecdd'; ctx.font = "700 17px 'Manrope', sans-serif";
+    ctx.fillText('Cotización de Perfumes', W-padX, 48);
+    ctx.fillStyle = '#8d7f68'; ctx.font = "400 13px 'Manrope', sans-serif";
+    ctx.fillText('Fecha: ' + new Date().toLocaleDateString('es-PE'), W-padX, 70);
+    ctx.textAlign = 'left';
+
+    var y = 108;
+    ctx.strokeStyle = 'rgba(243,236,221,.16)';
+    ctx.beginPath(); ctx.moveTo(padX, y); ctx.lineTo(W-padX, y); ctx.stroke();
+    y += 32;
+
+    ctx.fillStyle = '#8d7f68'; ctx.font = "600 12px 'Manrope', sans-serif";
+    ctx.fillText('CLIENTE', padX, y);
+    ctx.fillStyle = '#f3ecdd'; ctx.font = "700 16px 'Manrope', sans-serif";
+    ctx.fillText(client, padX+78, y);
+    y += 30;
+
+    ctx.font = "700 11px 'Manrope', sans-serif"; ctx.fillStyle = '#8d7f68';
+    ctx.fillText('PERFUME', xTitle, y);
+    ctx.textAlign='right';
+    ctx.fillText('CANT.', xCant, y);
+    ctx.fillText('COSTO', xCosto, y);
+    ctx.fillText('TOTAL', xTotal, y);
+    ctx.textAlign='left';
+    y += 12;
+    ctx.strokeStyle='rgba(243,236,221,.22)';
+    ctx.beginPath(); ctx.moveTo(padX,y); ctx.lineTo(W-padX,y); ctx.stroke();
+    y += 28;
+
+    rows.forEach(function(r, i){
+      var total = r.qty*r.cost;
+      var img = thumbImgs[i];
+      var thumbY = y - 22;
+      if(img){
+        ctx.save();
+        roundRectPath(ctx, xThumb, thumbY, thumbSize, thumbSize, 7);
+        ctx.clip();
+        ctx.drawImage(img, xThumb, thumbY, thumbSize, thumbSize);
+        ctx.restore();
+      } else {
+        roundRectPath(ctx, xThumb, thumbY, thumbSize, thumbSize, 7);
+        ctx.fillStyle = '#1f1810'; ctx.fill();
+      }
+      ctx.fillStyle = '#f3ecdd'; ctx.font = "600 14px 'Manrope', sans-serif";
+      r._lines.forEach(function(line, li){ ctx.fillText(line, xTitle, y + li*18); });
+      var midY = r._lines.length>1 ? y+9 : y;
+      ctx.font = "400 14px 'Manrope', sans-serif"; ctx.fillStyle='#ddd0b8';
+      ctx.textAlign='right';
+      ctx.fillText(String(r.qty), xCant, midY);
+      ctx.fillText('$'+r.cost.toFixed(2), xCosto, midY);
+      ctx.fillStyle = '#f3ecdd'; ctx.font="600 14px 'Manrope', sans-serif";
+      ctx.fillText('$'+total.toFixed(2), xTotal, midY);
+      ctx.textAlign='left';
+
+      y += r._rowH;
+      ctx.strokeStyle='rgba(243,236,221,.08)';
+      ctx.beginPath(); ctx.moveTo(padX, y-16); ctx.lineTo(W-padX, y-16); ctx.stroke();
+    });
+
+    y += 14;
+    ctx.strokeStyle='rgba(243,236,221,.2)';
+    ctx.beginPath(); ctx.moveTo(padX,y); ctx.lineTo(W-padX,y); ctx.stroke();
+    y += 32;
+
+    function summaryRow(label, value){
+      ctx.font="400 14px 'Manrope', sans-serif"; ctx.fillStyle='#ddd0b8';
+      ctx.fillText(label, padX, y);
+      ctx.textAlign='right'; ctx.fillText(value, W-padX, y); ctx.textAlign='left';
+      y += 26;
+    }
+    summaryRow('Total perfumes', '$'+subtotal.toFixed(2));
+    summaryRow('Shipping', '$'+shipping.toFixed(2));
+    if(weight>0) summaryRow('Flete aproximado', '$'+freightTotal.toFixed(2));
+
+    y += 12;
+    var barH = 60;
+    var grad = ctx.createLinearGradient(padX, 0, W-padX, 0);
+    grad.addColorStop(0, '#f1b200'); grad.addColorStop(1,'#aa5000');
+    roundRectPath(ctx, padX, y, W-padX*2, barH, 12);
+    ctx.fillStyle = grad; ctx.fill();
+    ctx.fillStyle = '#181209';
+    ctx.textBaseline = 'middle';
+    ctx.font = "700 16px 'Manrope', sans-serif";
+    ctx.fillText(weight>0?'TOTAL APROXIMADO':'TOTAL PERFUMERÍA', padX+22, y+barH/2);
+    ctx.textAlign='right'; ctx.font="700 25px 'Space Grotesk', sans-serif";
+    ctx.fillText('$'+grandTotal.toFixed(2), W-padX-22, y+barH/2);
+    ctx.textAlign='left'; ctx.textBaseline='alphabetic';
+    y += barH + 34;
+
+    ctx.textAlign='center'; ctx.fillStyle='#8d7f68'; ctx.font="400 11px 'Manrope', sans-serif";
+    ctx.fillText('ASTRA · Cotización generada digitalmente', W/2, y);
+    ctx.textAlign='left';
+
+    var H = Math.min(H_MAX, Math.round(y + 24));
+    var final = document.createElement('canvas');
+    final.width = W; final.height = H;
+    final.getContext('2d').drawImage(canvas, 0,0,W,H, 0,0,W,H);
+    return final;
+  }
+
+  async function downloadQuoteImage(){
+    if(!rows.length){ alert('Primero genera la cotización.'); return; }
+    var btn = document.getElementById('downloadBtn');
+    var originalText = btn.textContent;
+    var canvas = await drawQuoteImage();
+    canvas.toBlob(function(blob){
+      var client = (document.getElementById('clientNameInput').value || 'cotizacion').trim().replace(/\s+/g,'-');
+      var url = URL.createObjectURL(blob);
+      var a = document.createElement('a');
+      a.href = url;
+      a.download = 'cotizacion-astra-' + client + '.png';
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      setTimeout(function(){ URL.revokeObjectURL(url); }, 4000);
+      btn.textContent = 'Guardado ✓';
+      setTimeout(function(){ btn.textContent = originalText; }, 1800);
+    }, 'image/png');
+  }
+  document.getElementById('downloadBtn').addEventListener('click', downloadQuoteImage);
+
+  fetch('data/products.json').then(function(r){ return r.json(); }).then(function(data){
+    catalog = data.map(function(it){
+      return { id: it.id, t: it.t, p: it.p, v: it.v, a: it.a, im: it.im || null, _norm: normalize(it.t), _tokens: [] };
+    });
+    catalog.forEach(function(it, i){ it._tokens = tokens(it._norm); catalogById[it.id] = i; });
+    document.getElementById('catalogCount').textContent = catalog.length.toLocaleString('es');
+  }).catch(function(){
+    document.getElementById('catalogCount').textContent = '0';
+  });
+
+  loadAliases();
+  renderRows();
+
+  function waLink(text){
+    return 'https://wa.me/51902887887?text=' + encodeURIComponent(text);
+  }
+  document.getElementById('waLinkTarifa').href = waLink('ASTRA, tengo una duda sobre la tarifa de flete ($/kg) de mi cotización.');
+})();
+</script>
+</body>
+</html>
