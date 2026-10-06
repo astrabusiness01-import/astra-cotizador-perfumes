@@ -10,7 +10,7 @@
 <body>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Manrope:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Oswald:wght@500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap">
 <style>
   :root{
     --bg: #0b0a08;
@@ -34,10 +34,11 @@
     --consult: #a76ce9;
     --consult-bg: rgba(167, 108, 233, 0.16);
     --shadow: 0 12px 32px -14px rgba(0, 0, 0, 0.55);
-    --serif:'Space Grotesk',ui-sans-serif,system-ui,sans-serif;
-    --sans:'Manrope',ui-sans-serif,system-ui,sans-serif;
+    --serif:'Poppins',ui-sans-serif,system-ui,sans-serif;
+    --num:'Oswald','Poppins',ui-sans-serif,system-ui,sans-serif;
+    --sans:'Poppins',ui-sans-serif,system-ui,sans-serif;
     --mono:'JetBrains Mono',ui-monospace,'SF Mono',monospace;
-  @supports (color: color(display-p3 1 1 1)) { --bg: color(display-p3 0.0431 0.0392 0.0314); --bg-2: color(display-p3 0.0627 0.0549 0.0431); --bg-3: color(display-p3 0.0902 0.0745 0.0549); --surface: color(display-p3 0.0745 0.0588 0.0392); --surface-2: color(display-p3 0.0902 0.0745 0.0549); --cream: color(display-p3 0.9412 0.9098 0.8353); --cream-2: color(display-p3 0.8353 0.7765 0.6667); --cream-3: color(display-p3 0.4784 0.4235 0.3333); --accent: color(display-p3 0.9216 0.651 0.0353); --accent-2: color(display-p3 0.6353 0.2745 0.0196); --line: color(display-p3 0.9412 0.9098 0.8353 / 0.12); --line-strong: color(display-p3 0.9412 0.9098 0.8353 / 0.22); --ok: color(display-p3 0.4196 0.7137 0.4039); --ok-bg: color(display-p3 0.4196 0.7137 0.4039 / 0.14); --review: color(display-p3 0.8588 0.6118 0.1882); --review-bg: color(display-p3 0.8588 0.6118 0.1882 / 0.14); --bad: color(display-p3 0.8471 0.2863 0.2431); --bad-bg: color(display-p3 0.8471 0.2863 0.2431 / 0.14); --consult: color(display-p3 0.6235 0.4353 0.8863); --consult-bg: color(display-p3 0.6235 0.4353 0.8863 / 0.16); --shadow: 0 12px 32px -14px color(display-p3 0 0 0 / 0.55); }
+  
 }
   @media (prefers-color-scheme: light){
     :root:not([data-theme="dark"]){
@@ -62,7 +63,7 @@
       --consult: #6d34a6;
       --consult-bg: rgba(109, 52, 166, 0.12);
       --shadow: 0 12px 28px -16px rgba(28, 22, 13, 0.28);
-  @supports (color: color(display-p3 1 1 1)) { --bg: color(display-p3 0.9765 0.9569 0.9176); --bg-2: color(display-p3 0.9294 0.898 0.8157); --bg-3: color(display-p3 0.8784 0.8314 0.7137); --surface: color(display-p3 1 0.9922 0.9647); --surface-2: color(display-p3 0.9804 0.9529 0.8863); --cream: color(display-p3 0.1059 0.0863 0.0549); --cream-2: color(display-p3 0.2353 0.1961 0.1176); --cream-3: color(display-p3 0.3961 0.3412 0.2275); --accent: color(display-p3 0.5882 0.349 0.0196); --accent-2: color(display-p3 0.4 0.2353 0.0118); --line: color(display-p3 0.1059 0.0863 0.0549 / 0.12); --line-strong: color(display-p3 0.1059 0.0863 0.0549 / 0.22); --ok: color(display-p3 0.2 0.498 0.2078); --ok-bg: color(display-p3 0.2 0.498 0.2078 / 0.12); --review: color(display-p3 0.5765 0.3765 0.0471); --review-bg: color(display-p3 0.5765 0.3765 0.0471 / 0.12); --bad: color(display-p3 0.7216 0.1843 0.149); --bad-bg: color(display-p3 0.7216 0.1843 0.149 / 0.1); --consult: color(display-p3 0.4 0.2157 0.6275); --consult-bg: color(display-p3 0.4 0.2157 0.6275 / 0.12); --shadow: 0 12px 28px -16px color(display-p3 0.1059 0.0863 0.0549 / 0.28); }
+  
 }
   }
   :root[data-theme="light"]{
@@ -85,7 +86,7 @@
     --bad: #c81919;
     --bad-bg: rgba(200, 25, 25, 0.1);
     --shadow: 0 12px 28px -16px rgba(28, 22, 13, 0.28);
-  @supports (color: color(display-p3 1 1 1)) { --bg: color(display-p3 0.9765 0.9569 0.9176); --bg-2: color(display-p3 0.9294 0.898 0.8157); --bg-3: color(display-p3 0.8784 0.8314 0.7137); --surface: color(display-p3 1 0.9922 0.9647); --surface-2: color(display-p3 0.9804 0.9529 0.8863); --cream: color(display-p3 0.1059 0.0863 0.0549); --cream-2: color(display-p3 0.2353 0.1961 0.1176); --cream-3: color(display-p3 0.3961 0.3412 0.2275); --accent: color(display-p3 0.5882 0.349 0.0196); --accent-2: color(display-p3 0.4 0.2353 0.0118); --line: color(display-p3 0.1059 0.0863 0.0549 / 0.12); --line-strong: color(display-p3 0.1059 0.0863 0.0549 / 0.22); --ok: color(display-p3 0.2 0.498 0.2078); --ok-bg: color(display-p3 0.2 0.498 0.2078 / 0.12); --review: color(display-p3 0.5765 0.3765 0.0471); --review-bg: color(display-p3 0.5765 0.3765 0.0471 / 0.12); --bad: color(display-p3 0.7216 0.1843 0.149); --bad-bg: color(display-p3 0.7216 0.1843 0.149 / 0.1); --shadow: 0 12px 28px -16px color(display-p3 0.1059 0.0863 0.0549 / 0.28); }
+  
 }
   *{box-sizing:border-box;}
   body{
@@ -96,7 +97,7 @@
     font-size:14.5px;
     line-height:1.5;
   }
-  ::selection{background:var(--accent);color: #140f09; color: color(display-p3 0.0745 0.0588 0.0392);}
+  ::selection{background:var(--accent);color: #140f09;}
   .wrap{max-width:1180px;margin:0;padding:28px 22px 60px;}
 
   header.top{
@@ -186,10 +187,10 @@
   .btn{
     display:inline-flex;align-items:center;justify-content:center;gap:8px;
     background:linear-gradient(135deg,var(--accent),var(--accent-2));
-    color: #140f09; color: color(display-p3 0.0745 0.0588 0.0392);border:none;border-radius:999px;
+    color: #140f09;border:none;border-radius:999px;
     font-family:var(--sans);font-weight:700;font-size:13.5px;
     padding:11px 18px;cursor:pointer;width:100%;
-    box-shadow: 0 8px 18px -8px rgba(247, 162, 0, 0.45); box-shadow: 0 8px 18px -8px color(display-p3 0.9216 0.651 0.0353 / 0.45);
+    box-shadow: 0 8px 18px -8px rgba(247, 162, 0, 0.45);
   }
   .btn:active{transform:translateY(1px);}
   .btn.secondary{
@@ -239,7 +240,7 @@
   .chevron{
     display:inline-flex;align-items:center;justify-content:center;
     width:24px;height:24px;border-radius:50%;flex:none;
-    background:var(--accent);color: #140f09; color: color(display-p3 0.0745 0.0588 0.0392);
+    background:var(--accent);color: #140f09;
     font-size:15px;font-weight:700;line-height:1;
   }
   #freightBody, #helpBody{margin-top:16px;}
@@ -307,6 +308,7 @@
     font-family:var(--serif);font-weight:700;font-size:16px;color:var(--cream);
   }
   .summary-row.total .num{font-size:19px;color:var(--accent);}
+  .num,.summary-row .num{font-family:var(--num);font-variant-numeric:tabular-nums;}
 
   .freightGrid{
     display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:4px;
@@ -1095,7 +1097,7 @@ Khamrah Dukhan 1</div>
     var meas = document.getElementById('exportCanvas');
     meas.width = W; meas.height = 100;
     var mctx = meas.getContext('2d');
-    mctx.font = "600 14px 'Manrope', sans-serif";
+    mctx.font = "600 14px 'Poppins', sans-serif";
     rows.forEach(function(r){
       r._lines = wrapText(mctx, r.title, titleMaxWidth, 2);
       r._rowH = r._lines.length > 1 ? 60 : 44;
@@ -1131,13 +1133,13 @@ Khamrah Dukhan 1</div>
     var logoSize = 42;
     if(logo){ ctx.drawImage(logo, padX, 34, logoSize, logoSize*(logo.height/logo.width)); }
     ctx.fillStyle = '#f7a200';
-    ctx.font = "700 27px 'Space Grotesk', sans-serif";
+    ctx.font = "700 27px 'Poppins', sans-serif";
     ctx.fillText('ASTRA', padX + logoSize + 14, 62);
 
     ctx.textAlign = 'right';
-    ctx.fillStyle = '#f2e8d3'; ctx.font = "700 17px 'Manrope', sans-serif";
+    ctx.fillStyle = '#f2e8d3'; ctx.font = "700 17px 'Poppins', sans-serif";
     ctx.fillText('Cotización de Perfumes', W-padX, 48);
-    ctx.fillStyle = '#7d6b52'; ctx.font = "400 13px 'Manrope', sans-serif";
+    ctx.fillStyle = '#7d6b52'; ctx.font = "400 13px 'Poppins', sans-serif";
     ctx.fillText('Fecha: ' + new Date().toLocaleDateString('es-PE'), W-padX, 70);
     ctx.textAlign = 'left';
 
@@ -1146,13 +1148,13 @@ Khamrah Dukhan 1</div>
     ctx.beginPath(); ctx.moveTo(padX, y); ctx.lineTo(W-padX, y); ctx.stroke();
     y += 32;
 
-    ctx.fillStyle = '#7d6b52'; ctx.font = "600 12px 'Manrope', sans-serif";
+    ctx.fillStyle = '#7d6b52'; ctx.font = "600 12px 'Poppins', sans-serif";
     ctx.fillText('CLIENTE', padX, y);
-    ctx.fillStyle = '#f2e8d3'; ctx.font = "700 16px 'Manrope', sans-serif";
+    ctx.fillStyle = '#f2e8d3'; ctx.font = "700 16px 'Poppins', sans-serif";
     ctx.fillText(client, padX+78, y);
     y += 30;
 
-    ctx.font = "700 11px 'Manrope', sans-serif"; ctx.fillStyle = '#7d6b52';
+    ctx.font = "700 11px 'Poppins', sans-serif"; ctx.fillStyle = '#7d6b52';
     ctx.fillText('PERFUME', xTitle, y);
     ctx.textAlign='right';
     ctx.fillText('CANT.', xCant, y);
@@ -1178,14 +1180,14 @@ Khamrah Dukhan 1</div>
         roundRectPath(ctx, xThumb, thumbY, thumbSize, thumbSize, 7);
         ctx.fillStyle = '#18130d'; ctx.fill();
       }
-      ctx.fillStyle = '#f2e8d3'; ctx.font = "600 14px 'Manrope', sans-serif";
+      ctx.fillStyle = '#f2e8d3'; ctx.font = "600 14px 'Poppins', sans-serif";
       r._lines.forEach(function(line, li){ ctx.fillText(line, xTitle, y + li*18); });
       var midY = r._lines.length>1 ? y+9 : y;
-      ctx.font = "400 14px 'Manrope', sans-serif"; ctx.fillStyle='#d8c5a7';
+      ctx.font = "400 14px 'Poppins', sans-serif"; ctx.fillStyle='#d8c5a7';
       ctx.textAlign='right';
       ctx.fillText(String(r.qty), xCant, midY);
       ctx.fillText('$'+r.cost.toFixed(2), xCosto, midY);
-      ctx.fillStyle = '#f2e8d3'; ctx.font="600 14px 'Manrope', sans-serif";
+      ctx.fillStyle = '#f2e8d3'; ctx.font="600 14px 'Poppins', sans-serif";
       ctx.fillText('$'+total.toFixed(2), xTotal, midY);
       ctx.textAlign='left';
 
@@ -1200,7 +1202,7 @@ Khamrah Dukhan 1</div>
     y += 32;
 
     function summaryRow(label, value){
-      ctx.font="400 14px 'Manrope', sans-serif"; ctx.fillStyle='#d8c5a7';
+      ctx.font="400 14px 'Poppins', sans-serif"; ctx.fillStyle='#d8c5a7';
       ctx.fillText(label, padX, y);
       ctx.textAlign='right'; ctx.fillText(value, W-padX, y); ctx.textAlign='left';
       y += 26;
@@ -1217,14 +1219,14 @@ Khamrah Dukhan 1</div>
     ctx.fillStyle = grad; ctx.fill();
     ctx.fillStyle = '#140f09';
     ctx.textBaseline = 'middle';
-    ctx.font = "700 16px 'Manrope', sans-serif";
+    ctx.font = "700 16px 'Poppins', sans-serif";
     ctx.fillText(weight>0?'TOTAL APROXIMADO':'TOTAL PERFUMERÍA', padX+22, y+barH/2);
-    ctx.textAlign='right'; ctx.font="700 25px 'Space Grotesk', sans-serif";
+    ctx.textAlign='right'; ctx.font="700 27px 'Oswald', sans-serif";
     ctx.fillText('$'+grandTotal.toFixed(2), W-padX-22, y+barH/2);
     ctx.textAlign='left'; ctx.textBaseline='alphabetic';
     y += barH + 34;
 
-    ctx.textAlign='center'; ctx.fillStyle='#7d6b52'; ctx.font="400 11px 'Manrope', sans-serif";
+    ctx.textAlign='center'; ctx.fillStyle='#7d6b52'; ctx.font="400 11px 'Poppins', sans-serif";
     ctx.fillText('ASTRA · Cotización generada digitalmente', W/2, y);
     ctx.textAlign='left';
 
