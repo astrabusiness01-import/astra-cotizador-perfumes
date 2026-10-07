@@ -4,15 +4,26 @@
 Esquema por variante: {id, t, p, v, a, im}. Reutiliza las miniaturas ya descargadas
 (por producto) y solo baja las de productos nuevos.
 """
-import base64, concurrent.futures, json, os, sys, urllib.request
+import base64, concurrent.futures, json, os, sys, time, urllib.error, urllib.request
 
 BASE = "https://wholesale.cristfragances.com"
 OUT = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "data", "products.json")
 UA = {"User-Agent": "Mozilla/5.0"}
 
-def get(url, timeout=30):
-    with urllib.request.urlopen(urllib.request.Request(url, headers=UA), timeout=timeout) as r:
-        return r.read(), r.headers.get("Content-Type", "image/jpeg")
+def get(url, timeout=30, tries=6):
+    """GET con reintentos: desde servidores compartidos (GitHub Actions) Shopify a veces responde 429."""
+    for n in range(tries):
+        try:
+            with urllib.request.urlopen(urllib.request.Request(url, headers=UA), timeout=timeout) as r:
+                return r.read(), r.headers.get("Content-Type", "image/jpeg")
+        except urllib.error.HTTPError as e:
+            if e.code not in (429, 500, 502, 503, 504) or n == tries - 1:
+                raise
+            time.sleep(float(e.headers.get("Retry-After", 0) or 0) or 3 * (n + 1))
+        except (urllib.error.URLError, TimeoutError):
+            if n == tries - 1:
+                raise
+            time.sleep(3 * (n + 1))
 
 products = []
 page = 1
@@ -23,6 +34,7 @@ while True:
         break
     products.extend(batch)
     page += 1
+    time.sleep(1)
 if len(products) < 1000:
     sys.exit(f"Solo {len(products)} productos: el sitio parece caído, no se actualiza nada.")
 
@@ -65,7 +77,7 @@ def thumb(pid_url):
     except Exception:
         return pid, None
 
-with concurrent.futures.ThreadPoolExecutor(max_workers=40) as ex:
+with concurrent.futures.ThreadPoolExecutor(max_workers=8) as ex:
     for pid, im in ex.map(thumb, need.items()):
         if im:
             img_by_pid[pid] = im
