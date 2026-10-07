@@ -564,6 +564,21 @@ Khamrah Dukhan 1</div>
     });
   }
 
+  // Tolera un error de tipeo (letra de más/menos/cambiada o dos letras intercambiadas),
+  // p. ej. "qawha" → "qahwa", "khamraha" → "khamrah".
+  function withinOneEdit(a, b){
+    var la = a.length, lb = b.length;
+    if(Math.abs(la - lb) > 1) return false;
+    var i = 0;
+    while(i < la && i < lb && a[i] === b[i]) i++;
+    if(i === la && i === lb) return true;
+    if(la === lb){
+      if(a.slice(i+1) === b.slice(i+1)) return true;
+      return i+1 < la && a[i] === b[i+1] && a[i+1] === b[i] && a.slice(i+2) === b.slice(i+2);
+    }
+    return la > lb ? a.slice(i+1) === b.slice(i) : b.slice(i+1) === a.slice(i);
+  }
+
   function scoreCandidate(qTokens, qNorm, item){
     var exact = qNorm.length>0 && item._norm.indexOf(qNorm) !== -1;
     var coverage;
@@ -573,6 +588,7 @@ Khamrah Dukhan 1</div>
       var hit = 0;
       qTokens.forEach(function(t){
         if(item._tokens.indexOf(t) !== -1 || item._norm.indexOf(t) !== -1) hit++;
+        else if(t.length >= 5 && item._tokens.some(function(x){ return withinOneEdit(t, x); })) hit += 0.8;
       });
       coverage = hit / qTokens.length;
       if(exact) coverage = 1;
