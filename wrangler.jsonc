@@ -1,0 +1,8 @@
+// Cloudflare (Workers con archivos estáticos). Se publica solo con cada push a main
+// (también con la actualización diaria del catálogo).
+// Dirección: https://astra-cotizador-perfumes.astra-negocios.workers.dev
+{
+  "name": "astra-cotizador-perfumes",
+  "compatibility_date": "2026-10-01",
+  "assets": { "directory": "./.cf-publicar", "html_handling": "auto-trailing-slash", "not_found_handling": "404-page" }
+}

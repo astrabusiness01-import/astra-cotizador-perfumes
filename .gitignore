@@ -1,3 +1,5 @@
 .vercel
 .env*
 IDEAS-ANTARES.md
+.cf-publicar/
+.wrangler/
