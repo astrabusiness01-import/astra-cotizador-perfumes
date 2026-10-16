@@ -1,6 +1,11 @@
 {
   "redirects": [
     {
+      "source": "/",
+      "destination": "https://astra-cotizador-perfumes.astra-negocios.workers.dev/",
+      "permanent": false
+    },
+    {
       "source": "/:path*",
       "destination": "https://astra-cotizador-perfumes.astra-negocios.workers.dev/:path*",
       "permanent": false
